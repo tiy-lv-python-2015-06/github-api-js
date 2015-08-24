@@ -22,7 +22,7 @@ After completing this assignment, you should be able to:
 
 ## Easy Mode
 
-Recreate the HTML and CSS for the Github tab page (https://github.com/matthiasak?tab=repositories) as your design, and using two AJAX requests/Promises, pull your own profile information from Github:
+Recreate the HTML and CSS for the Github tab page (https://github.com/matthiasak?tab=repositories) as your design, and using two AJAX requests, pull your own profile information from Github:
 
 - Your profile: `https://api.github.com/users/<username>`
 - Your repos: `https://api.github.com/users/<username>/repos`
