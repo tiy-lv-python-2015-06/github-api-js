@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="site-style.css"/>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="container">
+    <div class="one-fourth column">
+            <img id="avatar" src="" height="230" width="230" >
+
+            <h1 class="user-names">
+                <span class="fullname"></span>
+                <span class="username"></span>
+            </h1>
+        <ul class="user-details">
+            <li><span class="user-location"></span></li>
+            <li><span class="user-detail">Joined on</span>
+                    <time class="user-join">Jun 16, 2015</time>
+            </li>
+        </ul>
+    </div>
+<div class="three-fourths column">
+<ul class="repo-list">
+    <li class="repo-list-detail">
+        <h3 class="repo-detail-name">
+            <!--<a href="{{ repo.url }}">{{ repo.name }}</a>-->
+        </h3>
+        <!--<p>{{ repo.description }}</p>-->
+        <!--<p>Updated at {{ repo.updated_at }}</p>-->
+    </li>
+</ul>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+    var baseURL = "https://api.github.com/users/apentz49";
+    var repoURL = "https://api.github.com/users/apentz49/repos";
+    var repolist = $('.repo-list');
+
+        $.ajax({
+          method: 'GET',
+          url: baseURL,
+          dataType: 'json'
+        }).done(function(data) {
+            console.log(data);
+            $("#avatar").attr("src", data.avatar_url);
+            $(".fullname").html(data.name);
+            $(".username").html(data.login);
+            $(".user-location").html(data.location);
+
+        });
+
+        $.ajax({
+          method: 'GET',
+          url: repoURL,
+          dataType: 'json'
+        }).done(function(data){
+            var repos = data;
+            repos.forEach(function(repo){
+                console.log(repo);
+                var reponame = repo.name;
+                var repodesc = repo.description;
+                var repoupdates = repo.updated_at;
+
+                var repodetailname = $('<li class="repo-detail-name repo-list-detail"></li>');
+                var a_repo = $('<a>');
+                a_repo.attr('href', repo.url);
+                a_repo.html(repo.name);
+                repodetailname.html(a_repo);
+                repolist.append(repodetailname);
+
+                var repodetaildesc = $('<p class="psize"></p>');
+                repodetaildesc.html(repodesc);
+                repodetailname.append(repodetaildesc);
+
+                var repodetailupdate = $('<p class="psize">Updated at</p>');
+                repodetailupdate.html(repoupdates);
+                repodetailname.append(repodetailupdate);
+
+
+            });
+        });
+</script>
+</body>
+</html>
