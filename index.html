@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/site-style.css"/>
+    <title></title>
+</head>
+<body>
+<div class="profile">
+    <div class="left-bar">
+        <img src="" alt="Avatar" id="avatar">
+        <div class="border-bottom">
+            <span class="name" id="name"></span>
+            <span class="name" id="login"></span>
+        </div>
+        <ul id="info">
+            <li id='location'></li>
+            <li id='email'></li>
+            <li id='html_url'></li>
+        </ul>
+    </div>
+    <div class="repos">
+        <div class="repo">
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+  var userUrl = 'https://api.github.com/users/ETinLV';
+  var reposUrl = 'http://api.github.com/users/ETinLV/repos';
+  var repolist = $(".repos");
+  $.ajax({
+    method: 'GET',
+    url: userUrl,
+    dataType: 'json'
+  }).done(function(userResults) {
+      $("#avatar").attr('src', userResults.avatar_url);
+      $("#name").html(userResults.name);
+      $("#login").html(userResults.login);
+      $("#location").html(userResults.location);
+      $("#email").html(userResults.email);
+      $("#html_url").html(userResults.html_url);
+      });
+
+  $.ajax({
+      method: 'GET',
+      url: reposUrl,
+      dataType: 'json'
+  }).done(function(repoResults) {
+      repoResults.forEach(function(repo){
+          var repodetail = $("<div class='repo'>");
+
+          var namespan = $('<a href=repo.url class="repo-name">');
+          namespan.html(repo.name);
+          repodetail.append(namespan);
+
+          var repodesc = $('<span class="repo-description">');
+          repodesc.html(repo.description);
+          repodetail.append(repodesc);
+
+          var updatedspan = $('<span class="repo-updated">');
+          updatedspan.html(repo.updated_at);
+          repodetail.append(updatedspan);
+          repolist.append(repodetail);
+      })
+  })
+
+
+
+</script>
+
+</body>
+</html>
